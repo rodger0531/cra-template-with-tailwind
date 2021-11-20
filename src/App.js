@@ -1,6 +1,9 @@
 import React from "react";
 import "./App.css";
 
+// Show and hide answer
+// timer
+
 function generateNumber(digit, range) {
   return new Array(digit)
     .fill()
@@ -9,7 +12,6 @@ function generateNumber(digit, range) {
 }
 
 function removeElement(str, idx) {
-  console.log(str);
   return str.slice(0, idx) + str.slice(idx + 1);
 }
 
@@ -79,38 +81,55 @@ export default function App() {
   };
 
   return (
-    <div className="App">
-      <h1>Number-Guessing Game</h1>
-      <span>Ans: {ans}</span>
-      <div>
-        <button onClick={initGame} style={{ marginRight: 10 }}>
-          Start
-        </button>
-        <button onClick={() => alert(ans)}>Show ans</button>
-        <br></br>
-        <br></br>
-        <div>Number of Attempts: {record.length}</div>
-      </div>
-      <br></br>
-      <label>Your guessing: </label>
-      <input
-        type="number"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onKeyDown={(e) =>
-          (e.key === "Enter" || e.keyCode === 13) &&
-          handleSubmit(e.target.value)
-        }
-      />
-      <button style={{ marginLeft: 10 }} onClick={() => handleSubmit(value)}>
-        Submit
-      </button>
-      {record.map((i, index) => (
-        <div key={index} style={{ flexDirection: "row", marginTop: 20 }}>
-          <span>Number: {i.number}</span>
-          <span> - Result: {i.result}</span>
+    <div className="App h-screen mt-36">
+      <div className="">
+        <h1 className="mb-8 text-2xl">Number-Guessing Game</h1>
+        <div>
+          <button
+            className="px-5 py-2 rounded bg-gray-700"
+            onClick={initGame}
+            style={{ marginRight: 10 }}
+          >
+            {ans ? "Restart" : "Start"}
+          </button>
+          <div>
+            <button
+              className="mt-8 mr-3 px-3 py-1 rounded bg-gray-700"
+              onClick={() => alert(ans)}
+            >
+              Show ans
+            </button>
+            <span>Ans: {ans}</span>
+          </div>
+          <br></br>
+          <br></br>
+          <div>Number of Attempts: {record.length}</div>
         </div>
-      ))}
+        <br></br>
+        <label>Your guess: </label>
+        <input
+          type="number"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={(e) =>
+            (e.key === "Enter" || e.keyCode === 13) &&
+            handleSubmit(e.target.value)
+          }
+        />
+        <button
+          className="px-3 py-1 rounded bg-gray-700"
+          style={{ marginLeft: 10 }}
+          onClick={() => handleSubmit(value)}
+        >
+          Submit
+        </button>
+        {record.map((i, index) => (
+          <div key={index} className="flex-row mt-5">
+            <span>Number: {i.number}</span>
+            <span> - Result: {i.result}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
