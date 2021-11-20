@@ -61,8 +61,13 @@ export default function App() {
   const [ans, setAns] = React.useState(); // TODO
   const [value, setValue] = React.useState("");
   const [record, setRecord] = React.useState([]);
+  const [showAnswer, setShowAnswer] = React.useState(false);
   const [range, setRange] = React.useState(6);
   const [digit, setDigit] = React.useState(4);
+
+  const toggleAnswer = () => {
+    setShowAnswer((prev) => !prev);
+  };
 
   const handleSubmit = (value) => {
     if (ans === undefined) return alert("Please start game");
@@ -86,21 +91,22 @@ export default function App() {
         <h1 className="mb-8 text-2xl">Number-Guessing Game</h1>
         <div>
           <button
-            className="px-5 py-2 rounded bg-gray-700"
+            className={`px-5 py-2 rounded text-lg ${
+              ans ? "bg-gray-700" : "bg-green-500"
+            }`}
             onClick={initGame}
-            style={{ marginRight: 10 }}
           >
             {ans ? "Restart" : "Start"}
           </button>
           <div>
             <button
-              className="mt-8 mr-3 px-3 py-1 rounded bg-gray-700"
-              onClick={() => alert(ans)}
+              className="mt-8 px-3 py-1 rounded bg-gray-700"
+              onClick={toggleAnswer}
             >
-              Show ans
+              {showAnswer ? "Hide ans" : "Show ans"}
             </button>
-            <span>Ans: {ans}</span>
           </div>
+          {showAnswer && <span>Ans: {ans}</span>}
           <br></br>
           <br></br>
           <div>Number of Attempts: {record.length}</div>
