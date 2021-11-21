@@ -96,14 +96,14 @@ export default function App() {
             }`}
             onClick={initGame}
           >
-            {ans ? "Restart" : "Start"}
+            {(ans ? "Restart" : "Start") + " game"}
           </button>
           <div>
             <button
               className="mt-8 px-3 py-1 rounded bg-gray-700"
               onClick={toggleAnswer}
             >
-              {showAnswer ? "Hide ans" : "Show ans"}
+              {(showAnswer ? "Hide" : "Show") + " answer"}
             </button>
           </div>
           {showAnswer && <span>Ans: {ans}</span>}
