@@ -92,9 +92,10 @@ export default function App() {
         <h1 className="mb-8 text-2xl">Number-Guessing Game</h1>
         <div>
           <button
-            className={`px-5 py-2 rounded text-lg ${
-              ans ? "bg-gray-700" : "bg-green-500"
-            }`}
+            className={classNames(
+              "px-5 py-2 rounded",
+              ans ? "bg-gray-700" : "bg-green-500 text-xl"
+            )}
             onClick={initGame}
           >
             {(ans ? "Restart" : "Start") + " game"}
@@ -110,7 +111,10 @@ export default function App() {
           {showAnswer && <span>Ans: {ans}</span>}
           <br></br>
           <br></br>
-          <div>Number of Attempts: {record.length}</div>
+          <div className="flex justify-center items-center">
+            Number of Attempts:{" "}
+            <span className="mx-3 text-2xl text-blue-500">{record.length}</span>
+          </div>
         </div>
         <br></br>
         <label>Your guess: </label>
@@ -124,8 +128,7 @@ export default function App() {
           }
         />
         <button
-          className="px-3 py-1 rounded bg-gray-700"
-          style={{ marginLeft: 10 }}
+          className="px-3 py-1 ml-3 rounded bg-gray-700"
           onClick={() => handleSubmit(value)}
         >
           Submit
