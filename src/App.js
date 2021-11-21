@@ -70,8 +70,16 @@ export default function App() {
     setShowAnswer((prev) => !prev);
   };
 
+  const allowedDigits = () => {
+    return new Array(range)
+      .fill()
+      .map((_, i) => i)
+      .join(", ");
+  };
+
   const handleSubmit = (value) => {
     if (ans === undefined) return alert("Please start game");
+    if (value === "") return;
 
     setRecord((prev) => [
       ...prev,
@@ -88,19 +96,19 @@ export default function App() {
 
   return (
     <div className="App h-screen">
-      <div className="py-24">
+      <div className="py-16">
         <h1 className="mb-16 text-2xl">Number-Guessing Game</h1>
         <div>
           <button
             className={classNames(
-              "px-5 py-2 rounded",
+              "px-5 py-2 h-10 rounded",
               ans ? "bg-gray-700" : "bg-green-500 text-xl"
             )}
             onClick={initGame}
           >
             {(ans ? "Restart" : "Start") + " game"}
           </button>
-          <div>
+          <div className="mb-1">
             <button
               className="mt-8 px-3 py-1 rounded bg-gray-700"
               onClick={toggleAnswer}
@@ -108,7 +116,7 @@ export default function App() {
               {(showAnswer ? "Hide" : "Show") + " answer"}
             </button>
           </div>
-          {showAnswer && <span>Ans: {ans}</span>}
+          {showAnswer && <span className="text-gray-500">Answer: {ans}</span>}
           <br></br>
           <br></br>
           <div className="flex justify-center items-center">
@@ -117,9 +125,10 @@ export default function App() {
           </div>
         </div>
         <br></br>
-        <label>Your guess: </label>
         <input
           type="number"
+          className="px-2 h-8 rounded"
+          placeholder="Your guess"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={(e) =>
@@ -133,25 +142,38 @@ export default function App() {
         >
           Submit
         </button>
+        <div className="mt-2 text-gray-400">
+          Allowed digits: {allowedDigits()}
+        </div>
         <div className="flex justify-center mt-10">
-          <table>
-            <thead className="border-b-4 border-double h-10">
-              <tr className="my-1">
-                <th className="w-16">No.</th>
-                <th className="w-32">Guess</th>
-                <th className="w-32">Result</th>
-              </tr>
-            </thead>
-            <tbody>
-              {record.map((i, index) => (
-                <tr key={index} className="h-8 transition hover:bg-gray-700">
-                  <td>{index}</td>
-                  <td>{i.number.split("").join(" ")}</td>
-                  <td>{i.result.split("").join(" ")}</td>
+          {record.length ? (
+            <table>
+              <thead className="border-b-4 border-double h-10">
+                <tr className="my-1">
+                  <th className="w-16">No.</th>
+                  <th className="w-32">Guess</th>
+                  <th className="w-32">Result</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {record.map((i, index) => (
+                  <tr key={index} className="h-8 transition hover:bg-gray-700">
+                    <td>{index}</td>
+                    <td>{i.number.split("").join(" ")}</td>
+                    <td>{i.result.split("").join(" ")}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : ans ? (
+            <span className="text-lg text-gray-500 italic">
+              Try some guesses...
+            </span>
+          ) : (
+            <span className="text-lg text-gray-500 italic">
+              Please start game
+            </span>
+          )}
         </div>
       </div>
     </div>
