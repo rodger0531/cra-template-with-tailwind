@@ -87,9 +87,9 @@ export default function App() {
   };
 
   return (
-    <div className="App h-screen mt-36">
-      <div className="">
-        <h1 className="mb-8 text-2xl">Number-Guessing Game</h1>
+    <div className="App h-screen">
+      <div className="py-24">
+        <h1 className="mb-16 text-2xl">Number-Guessing Game</h1>
         <div>
           <button
             className={classNames(
@@ -133,12 +133,26 @@ export default function App() {
         >
           Submit
         </button>
-        {record.map((i, index) => (
-          <div key={index} className="flex-row mt-5">
-            <span>Number: {i.number}</span>
-            <span> - Result: {i.result}</span>
-          </div>
-        ))}
+        <div className="flex justify-center mt-10">
+          <table>
+            <thead className="border-b-4 border-double h-10">
+              <tr className="my-1">
+                <th className="w-16">No.</th>
+                <th className="w-32">Guess</th>
+                <th className="w-32">Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              {record.map((i, index) => (
+                <tr key={index} className="h-8 transition hover:bg-gray-700">
+                  <td>{index}</td>
+                  <td>{i.number.split("").join(" ")}</td>
+                  <td>{i.result.split("").join(" ")}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
