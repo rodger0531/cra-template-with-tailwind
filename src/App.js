@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import { useStopwatch } from "react-timer-hook";
 import "./App.css";
 
 // Show and hide answer
@@ -65,6 +66,9 @@ export default function App() {
   const [showAnswer, setShowAnswer] = React.useState(false);
   const [range, setRange] = React.useState(6);
   const [digit, setDigit] = React.useState(4);
+  const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({
+    autoStart: false,
+  });
 
   const toggleAnswer = () => {
     setShowAnswer((prev) => !prev);
@@ -86,12 +90,18 @@ export default function App() {
       { number: value, result: getResult(value, ans, digit) },
     ]);
     setValue("");
-    if (ans === value) setTimeout(() => alert("You are correct"), 0);
+    if (ans === value)
+      setTimeout(() => {
+        pause();
+        alert("You are correct");
+      }, 0);
   };
 
   const initGame = () => {
+    reset();
     setAns(generateNumber(digit, range));
     setRecord([]);
+    start();
   };
 
   return (
@@ -101,8 +111,10 @@ export default function App() {
         <div>
           <button
             className={classNames(
-              "px-5 py-2 h-10 rounded",
-              ans ? "bg-gray-700" : "bg-green-500 text-xl"
+              "px-5 py-2 h-10 rounded transition duration-200",
+              ans
+                ? "bg-gray-700 hover:bg-gray-600"
+                : "bg-green-500 hover:bg-green-400 text-xl"
             )}
             onClick={initGame}
           >
@@ -110,7 +122,7 @@ export default function App() {
           </button>
           <div className="mb-1">
             <button
-              className="mt-8 px-3 py-1 rounded bg-gray-700"
+              className="mt-8 px-3 py-1 rounded transition duration-200 bg-gray-700 hover:bg-gray-600"
               onClick={toggleAnswer}
             >
               {(showAnswer ? "Hide" : "Show") + " answer"}
@@ -121,7 +133,20 @@ export default function App() {
           <br></br>
           <div className="flex justify-center items-center">
             Number of Attempts:{" "}
-            <span className="mx-3 text-2xl text-blue-500">{record.length}</span>
+            <span className="mx-3 text-xl text-blue-500">{record.length}</span>
+          </div>
+          <div>
+            Time elapsed:
+            {minutes !== 0 && (
+              <span className="ml-3">
+                <span className="text-xl text-blue-500">{minutes}</span> minute
+                {minutes > 1 && "s"}
+              </span>
+            )}
+            <span className="ml-2">
+              <span className="text-xl text-blue-500">{seconds}</span> second
+              {seconds > 1 && "s"}
+            </span>
           </div>
         </div>
         <br></br>
@@ -137,7 +162,7 @@ export default function App() {
           }
         />
         <button
-          className="px-3 py-1 ml-3 rounded bg-gray-700"
+          className="px-3 py-1 ml-3 rounded bg-gray-700 transition duration-200 bg-gray-700 hover:bg-gray-600"
           onClick={() => handleSubmit(value)}
         >
           Submit
@@ -166,11 +191,11 @@ export default function App() {
               </tbody>
             </table>
           ) : ans ? (
-            <span className="text-lg text-gray-500 italic">
+            <span className="mt-20 text-2xl text-gray-500 italic">
               Try some guesses...
             </span>
           ) : (
-            <span className="text-lg text-gray-500 italic">
+            <span className="mt-20 text-2xl text-gray-500 italic">
               Please start game
             </span>
           )}
