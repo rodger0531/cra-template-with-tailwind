@@ -107,48 +107,54 @@ export default function App() {
   return (
     <div className="App h-screen">
       <div className="py-16">
-        <h1 className="mb-16 text-2xl">Number-Guessing Game</h1>
+        <h1 className="mb-6 text-2xl">Number-Guessing Game</h1>
         <div>
-          <button
-            className={classNames(
-              "px-5 py-2 h-10 rounded transition duration-200",
-              ans
-                ? "bg-gray-700 hover:bg-gray-600"
-                : "bg-green-500 hover:bg-green-400 text-xl"
-            )}
-            onClick={initGame}
-          >
-            {(ans ? "Restart" : "Start") + " game"}
-          </button>
-          <div className="mb-1">
+          <div className="h-16 mb-6 flex flex-row justify-center items-end">
             <button
-              className="mt-8 px-3 py-1 rounded transition duration-200 bg-gray-700 hover:bg-gray-600"
-              onClick={toggleAnswer}
+              className={classNames(
+                "w-36 h-10 py-2 mr-8 rounded transition duration-200",
+                ans
+                  ? "bg-gray-700 hover:bg-gray-600"
+                  : "bg-green-500 hover:bg-green-400"
+              )}
+              onClick={initGame}
             >
-              {(showAnswer ? "Hide" : "Show") + " answer"}
+              {(ans ? "Restart" : "Start") + " game"}
             </button>
+            <div>
+              {showAnswer && <div className="text-gray-500">Answer: {ans}</div>}
+              <button
+                className="w-36 h-10 py-2 rounded transition duration-200 bg-gray-700 hover:bg-gray-600"
+                onClick={toggleAnswer}
+              >
+                {(showAnswer ? "Hide" : "Show") + " answer"}
+              </button>
+            </div>
           </div>
-          {showAnswer && <span className="text-gray-500">Answer: {ans}</span>}
-          <br></br>
-          <br></br>
-          <div className="flex justify-center items-center">
-            Number of Attempts:{" "}
-            <span className="mx-3 text-xl text-blue-500">{record.length}</span>
-          </div>
-          <div>
-            Time elapsed:
-            {minutes !== 0 && (
-              <span className="ml-3">
-                <span className="text-xl text-blue-500">{minutes}</span> minute
-                {minutes > 1 && "s"}
+          <div className="flex flex-row justify-center divide-x-2 divide-gray-500 divide-dashed">
+            <div className="mx-8 flex justify-center items-center">
+              Number of Attempts:{" "}
+              <span className="mx-3 text-xl text-blue-500">
+                {record.length}
               </span>
-            )}
-            <span className="ml-2">
-              <span className="text-xl text-blue-500">{seconds}</span> second
-              {seconds > 1 && "s"}
-            </span>
+            </div>
+            <div className="px-8">
+              Time elapsed:
+              {minutes !== 0 && (
+                <span className="ml-3">
+                  <span className="text-xl text-blue-500">{minutes}</span>{" "}
+                  minute
+                  {minutes > 1 && "s"}
+                </span>
+              )}
+              <span className="ml-2">
+                <span className="text-xl text-blue-500">{seconds}</span> second
+                {seconds > 1 && "s"}
+              </span>
+            </div>
           </div>
         </div>
+        <br></br>
         <br></br>
         <input
           type="number"
