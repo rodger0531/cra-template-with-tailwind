@@ -66,6 +66,7 @@ export default function App() {
   const [showAnswer, setShowAnswer] = React.useState(false);
   const [range, setRange] = React.useState(6);
   const [digit, setDigit] = React.useState(4);
+  const [errMsg, setErrMsg] = React.useState("");
   const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({
     autoStart: false,
   });
@@ -81,9 +82,32 @@ export default function App() {
       .join(", ");
   };
 
+  const handleOnChange = (event) => {
+    // If digit larger than allowed digits
+    if (
+      event.target.value &&
+      +event.target.value[event.target.value.length - 1] >= range
+    ) {
+      return;
+    }
+
+    let val = +event.target.value;
+    const allowedMax = +new Array(digit).fill(9).join("");
+    if (val >= 0 && val <= allowedMax) {
+      setValue(event.target.value);
+    } else return;
+  };
+
   const handleSubmit = (value) => {
-    if (ans === undefined) return alert("Please start game");
-    if (value === "") return;
+    if (ans === undefined || !isRunning) return alert("Please start game");
+    if (value === "") {
+      setErrMsg("Empty guess");
+      return;
+    } else if (value.length < digit) {
+      setErrMsg(`Enter ${digit} digit(s)`);
+      return;
+    }
+    if (errMsg) setErrMsg("");
 
     setRecord((prev) => [
       ...prev,
@@ -112,7 +136,7 @@ export default function App() {
           <div className="h-16 mb-6 flex flex-row justify-center items-end">
             <button
               className={classNames(
-                "w-36 h-10 py-2 mr-8 rounded transition duration-200",
+                "w-36 h-10 py-2 mr-8 md:mr-12 rounded transition duration-200",
                 ans
                   ? "bg-gray-700 hover:bg-gray-600"
                   : "bg-green-500 hover:bg-green-400"
@@ -132,13 +156,13 @@ export default function App() {
             </div>
           </div>
           <div className="flex flex-row justify-center divide-x-2 divide-gray-500 divide-dashed">
-            <div className="mx-8 flex justify-center items-center">
+            <div className="px-8 md:px-16 lg:px-24 flex justify-center items-center">
               Number of Attempts:{" "}
-              <span className="mx-3 text-xl text-blue-500">
+              <span className="ml-3 text-xl text-blue-500">
                 {record.length}
               </span>
             </div>
-            <div className="px-8">
+            <div className="px-8 md:px-16 lg:px-24">
               Time elapsed:
               {minutes !== 0 && (
                 <span className="ml-3">
@@ -161,14 +185,14 @@ export default function App() {
           className="px-2 h-8 rounded"
           placeholder="Your guess"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={handleOnChange}
           onKeyDown={(e) =>
             (e.key === "Enter" || e.keyCode === 13) &&
             handleSubmit(e.target.value)
           }
         />
         <button
-          className="px-3 py-1 ml-3 rounded bg-gray-700 transition duration-200 bg-gray-700 hover:bg-gray-600"
+          className="px-3 py-1 ml-3 md:ml-6 rounded bg-gray-700 transition duration-200 bg-gray-700 hover:bg-gray-600"
           onClick={() => handleSubmit(value)}
         >
           Submit
@@ -176,7 +200,10 @@ export default function App() {
         <div className="mt-2 text-gray-400">
           Allowed digits: {allowedDigits()}
         </div>
-        <div className="flex justify-center mt-10">
+        <span className={classNames("text-red-500", errMsg || "invisible")}>
+          {errMsg || "+"}
+        </span>
+        <div className="flex justify-center mt-4">
           {record.length ? (
             <table>
               <thead className="border-b-4 border-double h-10">
