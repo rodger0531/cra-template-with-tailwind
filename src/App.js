@@ -1,6 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { useStopwatch } from "react-timer-hook";
+import { CheckCircleIcon } from "@heroicons/react/solid";
 import "./App.css";
 
 // Show and hide answer
@@ -114,11 +115,12 @@ export default function App() {
       { number: value, result: getResult(value, ans, digit) },
     ]);
     setValue("");
-    if (ans === value)
+    if (ans === value) {
+      pause();
       setTimeout(() => {
-        pause();
         alert("You are correct");
       }, 0);
+    }
   };
 
   const initGame = () => {
@@ -133,7 +135,7 @@ export default function App() {
       <div className="py-16">
         <h1 className="mb-6 text-2xl">Number-Guessing Game</h1>
         <div>
-          <div className="h-16 mb-6 flex flex-row justify-center items-end">
+          <div className="h-16 mb-8 flex flex-row justify-center items-end">
             <button
               className={classNames(
                 "w-36 h-10 py-2 mr-8 md:mr-12 rounded transition duration-200",
@@ -155,14 +157,21 @@ export default function App() {
               </button>
             </div>
           </div>
-          <div className="flex flex-row justify-center divide-x-2 divide-gray-500 divide-dashed">
-            <div className="px-8 md:px-16 lg:px-24 flex justify-center items-center">
+          <div className="flex flex-row justify-center">
+            <div className="w-1/2 px-8 md:px-16 lg:px-24 flex justify-end items-center">
+              {!isRunning && ans && (
+                <CheckCircleIcon className="h-5 w-5 text-green-500 mr-3" />
+              )}
               Number of Attempts:{" "}
               <span className="ml-3 text-xl text-blue-500">
                 {record.length}
               </span>
             </div>
-            <div className="px-8 md:px-16 lg:px-24">
+            <div className="flex flex-row divide-x-2 divide-gray-500 divide-dashed">
+              <div className="px-1"></div>
+              <div className="px-1"></div>
+            </div>
+            <div className="w-1/2 px-8 md:px-16 lg:px-24 flex justify-start items-center">
               Time elapsed:
               {minutes !== 0 && (
                 <span className="ml-3">
