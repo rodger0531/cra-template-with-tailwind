@@ -1,4 +1,5 @@
 import React from "react";
+import { CheckCircleIcon } from "@heroicons/react/solid";
 
 export const ResultTable = ({ record, ans }) => {
   return (
@@ -13,11 +14,21 @@ export const ResultTable = ({ record, ans }) => {
             </tr>
           </thead>
           <tbody>
-            {record.map((i, index) => (
+            {record.map((i, index, arr) => (
               <tr key={index} className="h-8 transition hover:bg-gray-700">
                 <td>{index}</td>
                 <td>{i.number.split("").join(" ")}</td>
-                <td>{i.result.split("").join(" ")}</td>
+                <td className="relative">
+                  <span className="absolute left-1/2  top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    {i.result.split("").join(" ")}
+                  </span>
+                  {ans === i.number && (
+                    <CheckCircleIcon
+                      className="absolute right-0 transform
+                    -translate-y-1/2 h-5 w-5 text-green-500"
+                    />
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>

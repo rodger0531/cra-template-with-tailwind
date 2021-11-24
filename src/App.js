@@ -55,13 +55,7 @@ export default function App() {
       <div className="py-16">
         <h1 className="mb-6 text-2xl">Number-Guessing Game</h1>
         <Controls ans={ans} initGame={initGame} />
-        <Stats
-          isRunning={isRunning}
-          minutes={minutes}
-          seconds={seconds}
-          record={record}
-          ans={ans}
-        />
+        <Stats minutes={minutes} seconds={seconds} record={record} />
         <br></br>
         <br></br>
         <GuessInput

@@ -1,13 +1,9 @@
 import React from "react";
-import { CheckCircleIcon } from "@heroicons/react/solid";
 
-const Stats = ({ isRunning, minutes, seconds, record, ans }) => {
+const Stats = ({ minutes, seconds, record }) => {
   return (
     <div className="flex flex-row justify-center">
       <div className="w-1/2 px-8 md:px-16 lg:px-24 flex justify-end items-center">
-        {!isRunning && ans && (
-          <CheckCircleIcon className="h-5 w-5 text-green-500 mr-3" />
-        )}
         Number of Attempts:{" "}
         <span className="ml-3 text-xl text-blue-500">{record.length}</span>
       </div>
