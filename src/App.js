@@ -8,7 +8,7 @@ import { Controls } from "./controls";
 import { GuessInput } from "./guessInput";
 
 export default function App() {
-  const [ans, setAns] = React.useState(); // TODO
+  const [ans, setAns] = React.useState();
   const [value, setValue] = React.useState("");
   const [record, setRecord] = React.useState([]);
   const [range, setRange] = React.useState(6);
@@ -54,7 +54,7 @@ export default function App() {
     <div className="App h-screen">
       <div className="py-16">
         <h1 className="mb-6 text-2xl">Number-Guessing Game</h1>
-        <Controls ans={ans} initGame={initGame} />
+        <Controls value={value} ans={ans} initGame={initGame} />
         <Stats minutes={minutes} seconds={seconds} record={record} />
         <br></br>
         <br></br>

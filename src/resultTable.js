@@ -3,8 +3,8 @@ import { CheckCircleIcon } from "@heroicons/react/solid";
 
 export const ResultTable = ({ record, ans }) => {
   return (
-    <div className="flex justify-center mt-4">
-      {record.length ? (
+    <>
+      <div className="flex justify-center mt-4">
         <table>
           <thead className="border-b-4 border-double h-10">
             <tr className="my-1">
@@ -13,6 +13,7 @@ export const ResultTable = ({ record, ans }) => {
               <th className="w-32">Result</th>
             </tr>
           </thead>
+
           <tbody>
             {record.map((i, index, arr) => (
               <tr key={index} className="h-8 transition hover:bg-gray-700">
@@ -33,15 +34,22 @@ export const ResultTable = ({ record, ans }) => {
             ))}
           </tbody>
         </table>
-      ) : ans ? (
-        <span className="mt-20 text-2xl text-gray-500 italic">
-          Try some guesses...
-        </span>
+      </div>
+      {record.length === 0 ? (
+        <div className="mt-12">
+          {ans ? (
+            <span className="text-2xl text-gray-500 italic">
+              Try some guesses...
+            </span>
+          ) : (
+            <span className="text-2xl text-gray-500 italic">
+              Please start game
+            </span>
+          )}
+        </div>
       ) : (
-        <span className="mt-20 text-2xl text-gray-500 italic">
-          Please start game
-        </span>
+        ""
       )}
-    </div>
+    </>
   );
 };
