@@ -1,4 +1,15 @@
-# Getting Started with Create React App
+# Number Guessing Game
+
+This is a simple number guessing game with timed feature.
+
+Every guess will have a feedback, indicating how close you are to the correct answer.
+
+A - Number is correct and in the correct position \
+B - Number is correct but in the wrong position
+
+Your aim is to get 4 A's
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
